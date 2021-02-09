@@ -3,3 +3,4 @@ select column_name, data_type from information_schema.columns where table_schema
 /*Part 2*/
 select name from employers where location = "St. Louis City";
 /*Part 3*/
+select name, description from skills inner join jobskills on skills.Id = jobskills.SkillId;
