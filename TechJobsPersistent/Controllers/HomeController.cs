@@ -36,6 +36,7 @@ namespace TechJobsPersistent.Controllers
             return View(addJobViewModel);
         }
 
+        [HttpPost]
         public IActionResult ProcessAddJobForm(AddJobViewModel addJobViewModel, string[] selectedSkills)
         {
             if (ModelState.IsValid)
@@ -51,10 +52,8 @@ namespace TechJobsPersistent.Controllers
                     int skillId = int.Parse(skill);
                     JobSkill newJobSkill = new JobSkill
                     {
-                        //SkillId = skillId,
                         Skill = context.Skills.Find(skillId),
                         Job = newJob,
-                        //JobId = newJob.Id
                     };
                     context.JobSkills.Add(newJobSkill);
                 }
@@ -62,8 +61,8 @@ namespace TechJobsPersistent.Controllers
                 context.SaveChanges();
                 return Redirect("/home");
             }
-
-            return View();
+            addJobViewModel = new AddJobViewModel(context.Employers.ToList(), context.Skills.ToList());
+            return View("AddJob", addJobViewModel);
         }
 
         public IActionResult Detail(int id)
